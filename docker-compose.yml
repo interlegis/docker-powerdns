@@ -1,0 +1,17 @@
+pdns:
+  build: pdns
+  links:
+    - "mysql:mysql"
+  ports:
+    - "53:53"
+    - "53:53/udp"
+  #environment:
+  #  - PDNS_RECURSIVE_CACHE_TTL=10
+mysql:
+  image: mysql
+  environment:
+    - MYSQL_ROOT_PASSWORD=mysqlrootpw
+    - MYSQL_DATABASE=pdns
+    - MYSQL_USER=pdns
+    - MYSQL_PASSWORD=pdnspw
+
