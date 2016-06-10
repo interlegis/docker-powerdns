@@ -1,5 +1,5 @@
 pdns:
-  build: pdns
+  image: interlegis/powerdns
   links:
     - "mysql:mysql"
   ports:

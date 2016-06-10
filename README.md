@@ -25,7 +25,7 @@ Save the following snippet as docker-compose.yaml in any folder you like, or clo
 
 ```
 pdns:
-  build: pdns
+  image: interlegis/powerdns
   links:
     - "mysql:mysql"
   ports:
