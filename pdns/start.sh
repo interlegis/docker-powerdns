@@ -1,6 +1,6 @@
 #!/bin/bash
 
-mkdir -p /etc/powerdns
+mkdir -p /etc/powerdns/pdns.d
 
 cat >/etc/powerdns/pdns.conf <<EOF
 # MySQL Configuration
@@ -12,8 +12,20 @@ gmysql-host=mysql
 gmysql-user=$MYSQL_ENV_MYSQL_USER
 gmysql-dbname=$MYSQL_ENV_MYSQL_DATABASE
 gmysql-password=$MYSQL_ENV_MYSQL_PASSWORD
-gmysql-dnssec=yes
+gmysql-dnssec=$DNSSEC
+include-dir=/etc/powerdns/pdns.d
 EOF
+
+if [ ! -z $APIKEY ]; then
+  cat >/etc/powerdns/pdns.d/api.conf <<EOF
+experimental-json-interface=yes
+webserver=yes
+webserver-address=0.0.0.0
+webserver-allow-from=0.0.0.0/0
+experimental-api-key=$APIKEY
+EOF
+
+fi
 
 mysqlcheck() {
   # Wait for MySQL to be available...
