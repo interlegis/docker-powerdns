@@ -40,6 +40,12 @@ mysql:
     - MYSQL_PASSWORD=pdnspw
 ```
 
+## Environment Variables Supported
+
+Any setting from https://doc.powerdns.com/3/authoritative/settings/ is supported. Just add the prefix "PDNS\_" and replace any hyphens (-) with underscore (\_). Example: 
+
+``` allow-axfr-ips ===> PDNS\_ALLOW\_AXFR\_IPS ```
+
 ## Running
 
 ```
