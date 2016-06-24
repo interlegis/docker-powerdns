@@ -2,27 +2,25 @@
 
 mkdir -p /etc/powerdns/pdns.d
 
-cat >/etc/powerdns/pdns.conf <<EOF
-# MySQL Configuration
-#
-# Launch gmysql backend
-launch=gmysql
-# gpgsql parameters
-gmysql-host=mysql
-gmysql-user=$MYSQL_ENV_MYSQL_USER
-gmysql-dbname=$MYSQL_ENV_MYSQL_DATABASE
-gmysql-password=$MYSQL_ENV_MYSQL_PASSWORD
-gmysql-dnssec=$DNSSEC
-include-dir=/etc/powerdns/pdns.d
-EOF
+PDNSVARS=`echo ${!PDNS_*}`
+touch /etc/powerdns/pdns.conf
 
-if [ ! -z $APIKEY ]; then
+for var in $PDNSVARS; do
+  varname=`echo ${var#"PDNS_"} | awk '{print tolower($0)}' | sed 's/_/-/g'`
+  value=`echo ${!var} | sed 's/^$\(.*\)/\1/'`
+  if [ ! -z ${!value} ]; then
+    echo "$varname=${!value}" >> /etc/powerdns/pdns.conf
+  else
+    echo "$varname=$value" >> /etc/powerdns/pdns.conf
+  fi
+done
+
+if [ ! -z $PDNS_EXPERIMENTAL_API_KEY ]; then
   cat >/etc/powerdns/pdns.d/api.conf <<EOF
 experimental-json-interface=yes
 webserver=yes
 webserver-address=0.0.0.0
 webserver-allow-from=0.0.0.0/0
-experimental-api-key=$APIKEY
 EOF
 
 fi
