@@ -44,7 +44,7 @@ mysql:
 
 Any setting from https://doc.powerdns.com/3/authoritative/settings/ is supported. Just add the prefix "PDNS\_" and replace any hyphens (-) with underscore (\_). Example: 
 
-``` allow-axfr-ips ===> PDNS\_ALLOW\_AXFR\_IPS ```
+``` allow-axfr-ips ===> PDNS_ALLOW_AXFR_IPS ```
 
 ## Running
 
