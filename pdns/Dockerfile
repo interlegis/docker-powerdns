@@ -1,4 +1,4 @@
-FROM debian:jessie-backports
+FROM debian:jessie
 MAINTAINER Fabio Rauber <fabiorauber@gmail.com>
 
 ENV PDNSCONF_LAUNCH="gmysql" \
@@ -8,10 +8,15 @@ ENV PDNSCONF_LAUNCH="gmysql" \
     PDNSCONF_GMYSQL_PASSWORD='' \
     PDNSCONF_INCLUDE_DIR="/etc/powerdns/pdns.d" \
     PDNSCONF_GMYSQL_DNSSEC="yes" \
-    PDNSCONF_EXPERIMENTAL_API_KEY=""
+    PDNSCONF_API_KEY=""
 
-RUN apt-get update && \
-    DEBIAN_FRONTEND=noninteractive apt-get install -q -y -t jessie-backports pdns-server pdns-backend-mysql mysql-client && \
+ADD pdns.list /etc/apt/sources.list.d/pdns.list
+ADD pdns.preference /etc/apt/preferences.d/pdns 
+
+RUN apt-get update && DEBIAN_FRONTEND=noninteractive apt-get install -q -y curl && \
+    curl https://repo.powerdns.com/FD380FBB-pub.asc | apt-key add - && apt-get update
+
+RUN DEBIAN_FRONTEND=noninteractive apt-get install -q -y pdns-server pdns-backend-mysql mysql-client && \
     rm /etc/powerdns/pdns.d/*.conf && rm /etc/powerdns/*.conf && \
     apt-get clean && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
 

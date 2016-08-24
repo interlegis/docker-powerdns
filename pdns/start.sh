@@ -26,9 +26,9 @@ for var in $PDNSVARS; do
   fi
 done
 
-if [ ! -z $PDNSCONF_EXPERIMENTAL_API_KEY ]; then
+if [ ! -z $PDNSCONF_API_KEY ]; then
   cat >/etc/powerdns/pdns.d/api.conf <<EOF
-experimental-json-interface=yes
+api=yes
 webserver=yes
 webserver-address=0.0.0.0
 webserver-allow-from=0.0.0.0/0
