@@ -1,17 +1,27 @@
 pdns:
-  image: interlegis/powerdns
+  #build: pdns
+  image: interlegis/powerdns:4.0.1-1
   links:
     - "mysql:mysql"
   ports:
     - "53:53"
     - "53:53/udp"
-  #environment:
-  #  - PDNS_RECURSIVE_CACHE_TTL=10
-mysql:
-  image: mysql
+    - "8088:8081"
   environment:
-    - MYSQL_ROOT_PASSWORD=mysqlrootpw
-    - MYSQL_DATABASE=pdns
-    - MYSQL_USER=pdns
-    - MYSQL_PASSWORD=pdnspw
+    - PDNSCONF_API_KEY=a_strong_api_key
+    - PDNSCONF_MASTER=yes
+    - PDNSCONF_DEFAULT_SOA_NAME=dnsserver.domain.com
+    - PDNSCONF_DNSUPDATE=yes
+    - SECALLZONES_CRONJOB=yes
+
+mysql:
+  image: bitnami/mariadb:latest
+  environment:
+    - MARIADB_ROOT_PASSWORD=mysqlrootpw
+    - MARIADB_REPLICATION_MODE=master
+    - MARIADB_REPLICATION_USER=repl_user
+    - MARIADB_REPLICATION_PASSWORD=repl_password
+    - MARIADB_DATABASE=pdns
+    - MARIADB_USER=pdns
+    - MARIADB_PASSWORD=pdnspw
 

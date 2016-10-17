@@ -25,12 +25,18 @@ Save the following snippet as docker-compose.yaml in any folder you like, or clo
 
 ```
 pdns:
-  image: interlegis/powerdns
+  image: interlegis/powerdns:4.0.1-1
   links:
     - "mysql:mysql"
   ports:
     - "53:53"
     - "53:53/udp"
+    - "8088:8081"
+  environment:
+    - PDNSCONF_API_KEY=a_strong_api_key
+    - PDNSCONF_MASTER=yes
+    - PDNSCONF_DEFAULT_SOA_NAME=dnsserver.domain.com
+
 mysql:
   image: mysql
   environment:
@@ -46,6 +52,15 @@ Any setting from https://doc.powerdns.com/3/authoritative/settings/ is supported
 
 ``` allow-axfr-ips ===> PDNS_ALLOW_AXFR_IPS ```
 
+### Additional Environment Variables:
+
+ - SECALLZONES_CRONJOB: If set to 'yes', a Cron Job every half hour checks if any domain is not DNSSEC enabled. If so, it enables DNSSEC for that zone and fixes any DS records in parent zones hosted in the same server.
+
+## Clustering
+
+You can easily enable PowerDNS native "slaves" with bitnami/mariadb docker image. 
+See <https://hub.docker.com/r/bitnami/mariadb>
+
 ## Running
 
 ```
@@ -56,4 +71,3 @@ docker-compose up -d
 ## Contributing
 
 Pull requests welcome!
-                          
