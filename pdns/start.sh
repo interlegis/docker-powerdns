@@ -58,6 +58,18 @@ mysqlcheck() {
 
 mysqlcheck
 
+if [ "$SECALLZONES_CRONJOB" == "yes" ]; then
+  cat > /etc/crontab <<EOF
+PDNSCONF_API_KEY=$PDNSCONF_API_KEY
+SHELL=/bin/bash
+PATH=/usr/local/sbin:/usr/local/bin:/sbin:/bin:/usr/sbin:/usr/bin
+# m  h dom mon dow user    command
+0,30 *  *   *   *  root    /usr/local/bin/secallzones.sh > /var/log/cron.log 2>&1
+EOF
+  ln -sf /proc/1/fd/1 /var/log/cron.log
+  cron -f &
+fi
+
 # Start PowerDNS
 # same as /etc/init.d/pdns monitor
 echo "Starting PowerDNS..."
