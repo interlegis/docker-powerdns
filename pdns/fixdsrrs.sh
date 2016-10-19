@@ -29,8 +29,7 @@ while read -r d; do
     # $d is not a top domain
     TOPDOM="${dcs[-3]}.${dcs[-2]}.${dcs[-1]}."
     # get current DNS for $d
-    CURRDSRAW=`curl -s -f -X GET --data '{"rrsets": [ { "name": "'"$TOPDOM"'." } ] }' -H "X-API-Key: $
-PDNSCONF_API_KEY" $APISERVER/api/v1/servers/localhost/zones/$TOPDOM`
+    CURRDSRAW=`curl -s -f -X GET --data '{"rrsets": [ { "name": "'"$TOPDOM"'." } ] }' -H "X-API-Key: $PDNSCONF_API_KEY" $APISERVER/api/v1/servers/localhost/zones/$TOPDOM`
     if [ $? -ne 0 ]; then
       echo "Domain $TOPDOM does not exist in this server. Skipping $d.."
       continue
