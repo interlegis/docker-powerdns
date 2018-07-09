@@ -21,4 +21,10 @@ while read -r d; do
   fi
 
 done <<< "$ZONES"
+
+echo -n "[`date +"%T"`] Rectifying all zones..."
+pdnsutil rectify-all-zones &> /dev/null && echo " OK."
+
 echo "[`date +"%T"`] Secallzones finished."
+
+

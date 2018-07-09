@@ -1,4 +1,5 @@
-FROM debian:jessie
+FROM debian:stretch-slim
+
 MAINTAINER Fabio Rauber <fabiorauber@gmail.com>
 
 ENV PDNSCONF_LAUNCH="gmysql" \
@@ -14,7 +15,7 @@ ENV PDNSCONF_LAUNCH="gmysql" \
 ADD pdns.list /etc/apt/sources.list.d/pdns.list
 ADD pdns.preference /etc/apt/preferences.d/pdns 
 
-RUN apt-get update && DEBIAN_FRONTEND=noninteractive apt-get install -q -y curl && \
+RUN apt-get update && DEBIAN_FRONTEND=noninteractive apt-get install -q -y curl gnupg && \
     curl https://repo.powerdns.com/FD380FBB-pub.asc | apt-key add - && apt-get update
 
 RUN DEBIAN_FRONTEND=noninteractive apt-get install -q -y pdns-server pdns-backend-mysql mysql-client && \

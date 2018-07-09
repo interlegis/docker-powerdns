@@ -1,1 +1,1 @@
-deb http://repo.powerdns.com/debian jessie-auth-40 main
+deb [arch=amd64] http://repo.powerdns.com/debian stretch-auth-41 main

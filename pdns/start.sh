@@ -19,11 +19,7 @@ fi
 for var in $PDNSVARS; do
   varname=`echo ${var#"PDNSCONF_"} | awk '{print tolower($0)}' | sed 's/_/-/g'`
   value=`echo ${!var} | sed 's/^$\(.*\)/\1/'`
-  if [ ! -z ${!value} ]; then
-    echo "$varname=${!value}" >> /etc/powerdns/pdns.conf
-  else
-    echo "$varname=$value" >> /etc/powerdns/pdns.conf
-  fi
+  echo "$varname=$value" >> /etc/powerdns/pdns.conf
 done
 
 if [ ! -z $PDNSCONF_API_KEY ]; then
