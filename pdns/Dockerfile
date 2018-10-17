@@ -29,6 +29,7 @@ EXPOSE 53/udp 53/tcp
 ADD start.sh /usr/local/bin/start.sh
 ADD fixdsrrs.sh /usr/local/bin/fixdsrrs.sh
 ADD secallzones.sh /usr/local/bin/secallzones.sh
+ADD schema.mysql.sql /usr/share/doc/pdns-backend-mysql/
 RUN chmod a+x /usr/local/bin/*.sh
 
 CMD ["/usr/local/bin/start.sh"]
