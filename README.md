@@ -1,5 +1,5 @@
 # docker-powerdns
-PowerDNS docker container, based on Debian Jessie.
+PowerDNS docker container, based on Debian Buster.
 
 ## Requirements
 
@@ -16,16 +16,16 @@ curl -ssl https://get.docker.com | sh
 Docker-compose is desirable (run as root as well):
 
 ```
-curl -L https://github.com/docker/compose/releases/download/1.7.1/docker-compose-`uname -s`-`uname -m` > /usr/local/bin/docker-compose
+sudo curl -L "https://github.com/docker/compose/releases/download/1.28.2/docker-compose-$(uname -s)-$(uname -m)" -o /usr/local/bin/docker-compose
 ```
 
 ## Docker-compose Example
 
-Save the following snippet as docker-compose.yaml in any folder you like, or clone this repository, which contains the same file.
+Save the following snippet as docker-compose.yaml in any folder you like, or clone this repository, which contains a sample docker-compose.yml.
 
 ```
 pdns:
-  image: interlegis/powerdns:4.0.1-1
+  image: interlegis/powerdns:4.4.0
   links:
     - "mysql:mysql"
   ports:
@@ -34,8 +34,6 @@ pdns:
     - "8088:8081"
   environment:
     - PDNSCONF_API_KEY=a_strong_api_key
-    - PDNSCONF_MASTER=yes
-    - PDNSCONF_DEFAULT_SOA_NAME=dnsserver.domain.com
 
 mysql:
   image: mysql
@@ -48,7 +46,7 @@ mysql:
 
 ## Environment Variables Supported
 
-Any setting from https://doc.powerdns.com/3/authoritative/settings/ is supported. Just add the prefix "PDNS\_" and replace any hyphens (-) with underscore (\_). Example: 
+Any setting from https://doc.powerdns.com/authoritative/settings.html is supported. Just add the prefix "PDNS\_" and replace any hyphens (-) with underscore (\_). Example: 
 
 ``` allow-axfr-ips ===> PDNS_ALLOW_AXFR_IPS ```
 
