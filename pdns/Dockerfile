@@ -22,6 +22,7 @@ RUN DEBIAN_FRONTEND=noninteractive apt-get install -q -y pdns-server pdns-backen
     rm /etc/powerdns/pdns.d/*.conf && rm /etc/powerdns/*.conf && \
     DEBIAN_FRONTEND=noninteractive apt-get install -y --no-install-recommends cron jq && \
     rm /etc/cron.daily/* && \
+    mkdir /var/run/pdns && \
     apt-get clean && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
 
 EXPOSE 53/udp 53/tcp
