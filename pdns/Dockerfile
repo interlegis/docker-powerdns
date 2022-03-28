@@ -19,6 +19,7 @@ ADD pdns.list /etc/apt/sources.list.d/pdns.list
 ADD pdns.preference /etc/apt/preferences.d/pdns 
 
 RUN apt-get update && \
+    echo "path-include /usr/share/doc/*/*.sql" >> /etc/dpkg/dpkg.cfg.d/docker && \
     DEBIAN_FRONTEND=noninteractive apt-get install -q -y pdns-server pdns-backend-mysql mariadb-client && \
     rm /etc/powerdns/pdns.d/*.conf && rm /etc/powerdns/*.conf && \
     DEBIAN_FRONTEND=noninteractive apt-get install -y --no-install-recommends cron jq && \
@@ -31,7 +32,6 @@ EXPOSE 53/udp 53/tcp
 ADD start.sh /usr/local/bin/start.sh
 ADD fixdsrrs.sh /usr/local/bin/fixdsrrs.sh
 ADD secallzones.sh /usr/local/bin/secallzones.sh
-ADD schema.mysql.sql /usr/share/doc/pdns-backend-mysql/
 RUN chmod a+x /usr/local/bin/*.sh
 
 CMD ["/usr/local/bin/start.sh"]
