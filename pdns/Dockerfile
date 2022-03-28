@@ -12,16 +12,17 @@ ENV PDNSCONF_LAUNCH="gmysql" \
     PDNSCONF_API_KEY="" \
     SECALLZONES_CRONJOB="no"
 
-RUN apt-get update && DEBIAN_FRONTEND=noninteractive apt-get install -q -y curl gnupg && \
-    curl https://repo.powerdns.com/FD380FBB-pub.asc | apt-key add - 
+ADD https://repo.powerdns.com/FD380FBB-pub.asc /etc/apt/trusted.gpg.d/powerdns-key.asc
 
 ADD pdns.list /etc/apt/sources.list.d/pdns.list
 ADD pdns.preference /etc/apt/preferences.d/pdns 
 
-RUN apt-get update && \
+RUN \
+    chmod 644 /etc/apt/trusted.gpg.d/powerdns-key.asc && \
+    apt-get update && \
     DEBIAN_FRONTEND=noninteractive apt-get install -q -y pdns-server pdns-backend-mysql mariadb-client && \
     rm /etc/powerdns/pdns.d/*.conf && rm /etc/powerdns/*.conf && \
-    DEBIAN_FRONTEND=noninteractive apt-get install -y --no-install-recommends cron jq && \
+    DEBIAN_FRONTEND=noninteractive apt-get install -y --no-install-recommends cron curl jq && \
     rm /etc/cron.daily/* && \
     mkdir /var/run/pdns && \
     apt-get clean && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
