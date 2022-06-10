@@ -10,6 +10,7 @@ steps:
     mirror: https://registrycache.interlegis.leg.br
     pull: if-not-exists
     auto_tag: true
+    dockerfile: pdns/Dockerfile
     username:
       from_secret: porto_user
     password:
