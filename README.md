@@ -46,9 +46,9 @@ mysql:
 
 ## Environment Variables Supported
 
-Any setting from https://doc.powerdns.com/authoritative/settings.html is supported. Just add the prefix "PDNS\_" and replace any hyphens (-) with underscore (\_). Example: 
+Any setting from https://doc.powerdns.com/authoritative/settings.html is supported. Just add the prefix "PDNSCONF\_" and replace any hyphens (-) with underscore (\_). Example: 
 
-``` allow-axfr-ips ===> PDNS_ALLOW_AXFR_IPS ```
+``` allow-axfr-ips ===> PDNSCONF_ALLOW_AXFR_IPS ```
 
 ### Additional Environment Variables:
 
