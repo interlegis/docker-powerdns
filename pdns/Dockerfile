@@ -1,4 +1,4 @@
-FROM debian:buster
+FROM debian:bullseye
 
 MAINTAINER Fabio Rauber <fabiorauber@gmail.com>
 
