@@ -11,6 +11,7 @@ steps:
     pull: if-not-exists
     auto_tag: true
     dockerfile: pdns/Dockerfile
+    context: pdns/
     username:
       from_secret: porto_user
     password:
