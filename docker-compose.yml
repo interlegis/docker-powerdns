@@ -1,28 +1,37 @@
-pdns:
-  #build: pdns
-  image: interlegis/powerdns:4.4.0
-  links:
-    - "mysql:mysql"
-  ports:
-    - "53:53"
-    - "53:53/udp"
-    - "8088:8081"
-  environment:
-    - PDNSCONF_API_KEY=a_strong_api_key
-    - PDNSCONF_DNSUPDATE=yes
-    - SECALLZONES_CRONJOB=yes
+version: "2.1"
+services:
+  pdns:
+    build: pdns
+    #image: interlegis/powerdns:4.4.0
+    links:
+      - "mysql:mysql"
+    ports:
+      - "53:53"
+      - "53:53/udp"
+      - "8088:8081"
+    environment:
+      - PDNSCONF_API_KEY=a_strong_api_key
+      - PDNSCONF_DNSUPDATE=yes
+      - SECALLZONES_CRONJOB=yes
+      - PDNSCONF_GMYSQL_USER=pdns
+      - PDNSCONF_GMYSQL_DBNAME=pdns
+      - PDNSCONF_GMYSQL_PASSWORD=pdnspw
 
-mysql:
-  image: bitnami/mariadb:10.1.14-r3
-  environment:
-    - MARIADB_ROOT_PASSWORD=mysqlrootpw
-    - MARIADB_REPLICATION_MODE=master
-    - MARIADB_REPLICATION_USER=repl_user
-    - MARIADB_REPLICATION_PASSWORD=repl_password
-    - MARIADB_DATABASE=pdns
-    - MARIADB_USER=pdns
-    - MARIADB_PASSWORD=pdnspw
-  volumes:
-    - dnsmasterdb:/bitnami/mariadb
-  ports:
-    - 3306:3306
+  mysql:
+    image: bitnami/mariadb:10.7.4-debian-11-r1
+    environment:
+      - MARIADB_ROOT_PASSWORD=mysqlrootpw
+      - MARIADB_REPLICATION_MODE=master
+      - MARIADB_REPLICATION_USER=repl_user
+      - MARIADB_REPLICATION_PASSWORD=repl_password
+      - MARIADB_DATABASE=pdns
+      - MARIADB_USER=pdns
+      - MARIADB_PASSWORD=pdnspw
+    volumes:
+      - dnsmasterdb:/bitnami/mariadb
+    ports:
+      - 3306:3306
+
+volumes:
+  dnsmasterdb:
+    driver: local
