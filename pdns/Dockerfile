@@ -22,9 +22,10 @@ RUN chmod 644 /etc/apt/trusted.gpg.d/powerdns-key.asc && \
     echo "path-include /usr/share/doc/*/*.sql" >> /etc/dpkg/dpkg.cfg.d/docker && \
     DEBIAN_FRONTEND=noninteractive apt-get install -q -y pdns-server pdns-backend-mysql mariadb-client && \
     rm /etc/powerdns/pdns.d/*.conf && rm /etc/powerdns/*.conf && \
-    DEBIAN_FRONTEND=noninteractive apt-get install -y --no-install-recommends cron curl jq && \
+    DEBIAN_FRONTEND=noninteractive apt-get install -y --no-install-recommends cron curl jq busybox && \
     rm /etc/cron.daily/* && \
     mkdir /var/run/pdns && \
+    ln -s /bin/busybox /usr/bin/nslookup && \
     apt-get clean && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
 
 EXPOSE 53/udp 53/tcp
