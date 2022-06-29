@@ -36,7 +36,9 @@ pdns:
     - "8088:8081"
   environment:
     - PDNSCONF_API_KEY=a_strong_api_key
-
+    - PDNSCONF_GMYSQL_USER=pdns
+    - PDNSCONF_GMYSQL_DBNAME=pdns
+    - PDNSCONF_GMYSQL_PASSWORD=pdnspw
 mysql:
   image: mysql
   environment:
